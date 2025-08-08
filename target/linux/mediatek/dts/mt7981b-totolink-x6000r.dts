@@ -67,7 +67,7 @@
 		phy-connection-type = "2500base-x";
 
 		nvmem-cell-names = "mac-address";
-		nvmem-cells = <&macaddr_factory_2a>;
+		nvmem-cells = <&macaddr_factory_e006>;
 		fixed-link {
 			speed = <2500>;
 			full-duplex;
@@ -79,7 +79,7 @@
 		compatible = "mediatek,eth-mac";
 		reg = <1>;
 		phy-mode = "gmii";
-		nvmem-cells = <&macaddr_factory_24>;
+		nvmem-cells = <&macaddr_factory_e000>;
 		nvmem-cell-names = "mac-address";
 	};
 
@@ -150,12 +150,12 @@
 						reg = <0x0 0xe00>;
 					}
 
-					macaddr_factory_24: macaddr@24 {
-						reg = <0x11 0x14>;
+					macaddr_factory_e000: macaddr@e000 {
+						reg = <0xe000 0x6>;
 					};
 
-					macaddr_factory_2a: macaddr@2a {
-						reg = <0x11 0x1a>;
+					macaddr_factory_e006: macaddr@e006 {
+						reg = <0xe006 0x6>;
 					};
 				};
 			};
@@ -233,7 +233,7 @@
 			label = "wan";
 
 			nvmem-cell-names = "mac-address";
-			nvmem-cells = <&macaddr_factory_2a 1>;
+			nvmem-cells = <&macaddr_factory_e006 1>;
 		};
 
 		port@1 {
