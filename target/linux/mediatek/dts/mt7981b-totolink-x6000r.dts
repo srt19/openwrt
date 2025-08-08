@@ -148,7 +148,7 @@
 
 					eeprom_factory_0: eeprom@0 {
 						reg = <0x0 0xe00>;
-					}
+					};
 
 					macaddr_factory_e000: macaddr@e000 {
 						reg = <0xe000 0x6>;
