@@ -27,27 +27,36 @@
         compatible = "gpio-keys";
 
         reset {
-			label = "reset";
-			linux,code = <KEY_RESTART>;
-			gpios = <&pio 4 GPIO_ACTIVE_LOW>;
-		};
+            label = "reset";
+            linux,code = <KEY_RESTART>;
+            gpios = <&pio 0 GPIO_ACTIVE_LOW>;
+        };
 
-		wps {
-			label = "wps";
-			linux,code = <KEY_WPS_BUTTON>;
-			gpios = <&pio 0 GPIO_ACTIVE_LOW>;
-		};
+        wps {
+            label = "wps";
+            linux,code = <KEY_WPS_BUTTON>;
+            gpios = <&pio 1 GPIO_ACTIVE_LOW>;
+        };
     };
 
     gpio-leds {
         compatible = "gpio-leds";
 
-        led_status: status_blue {
-			function = LED_FUNCTION_STATUS;
-			color = <LED_COLOR_ID_BLUE>;
-			gpios = <&pio 18 GPIO_ACTIVE_LOW>;
+        wan {
+            label = "wan";
+            gpios = <&pio 8 GPIO_ACTIVE_LOW>;
+        };
+
+        sys_red {
+            label = "sys_red";
+            gpios = <&pio 13 GPIO_ACTIVE_LOW>;
+        };
+
+        sys_blue {
+            label = "sys_blue";
+            gpios = <&pio 15 GPIO_ACTIVE_LOW>;
             default-state = "on";
-		};
+        };
     };
 };
 
@@ -66,8 +75,8 @@
 		reg = <0>;
 		phy-connection-type = "2500base-x";
 
-		nvmem-cell-names = "mac-address";
 		nvmem-cells = <&macaddr_factory_e006>;
+		nvmem-cell-names = "mac-address";
 		fixed-link {
 			speed = <2500>;
 			full-duplex;
@@ -79,7 +88,7 @@
 		compatible = "mediatek,eth-mac";
 		reg = <1>;
 		phy-mode = "gmii";
-		nvmem-cells = <&macaddr_factory_e000>;
+		nvmem-cells = <&macaddr_factory_e01a>;
 		nvmem-cell-names = "mac-address";
 	};
 
@@ -147,15 +156,15 @@
 					#size-cells = <1>;
 
 					eeprom_factory_0: eeprom@0 {
-						reg = <0x0 0xe00>;
-					};
-
-					macaddr_factory_e000: macaddr@e000 {
-						reg = <0xe000 0x6>;
+						reg = <0x0 0x1000>;
 					};
 
 					macaddr_factory_e006: macaddr@e006 {
 						reg = <0xe006 0x6>;
+					}
+
+					macaddr_factory_e01a: macaddr@e01a {
+						reg = <0xe01a 0x6>;
 					};
 				};
 			};
@@ -167,6 +176,7 @@
 			};
 
 			partition@180000 {
+				compatible = "denx,fit";
 				label = "firmware";
 				reg = <0x180000 0xe00000>;
 			};
@@ -175,10 +185,10 @@
 };
 
 &pio {
-	spi0_flash_pins {
+	spi0_flash_pins: spi0-pins {
 		mux {
 			function = "spi";
-			groups = "spi0\0spi0_wp_hold";
+			groups = "spi0", "spi0_wp_hold";
 		};
 
 		conf-pu {
@@ -194,14 +204,14 @@
 		};
 	};
 
-	spi1_flash_pins {
+	spi1_flash_pins: spi1-pins {
 		mux {
 			function = "spi";
 			groups = "spi1_1";
 		};
 	};
 
-	spi2_flash_pins {
+	spi2_flash_pins: spi2-pins {
 		mux {
 			function = "spi";
 			groups = "spi2", "spi2_wp_hold";
